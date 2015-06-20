@@ -2,7 +2,7 @@ library(XML)
 library(ggplot2)
 library(gridExtra)
 
-url = "http://www.cic.gc.ca/english/express-entry/past-rounds.asp"
+url="http://www.cic.gc.ca/english/express-entry/past-rounds.asp"
 cic=xmlParse(url, isHTML = TRUE)
 details=xpathSApply(cic,'//details')
 
@@ -23,10 +23,8 @@ for (i in 1:length(details)) {
 
 dat = data.frame(time, invitations, points)
 
-p1 = ggplot(data=dat, aes(x=time, y=invitations, group=1)) + 
-     geom_line(colour='red')
-p2 = ggplot(data=dat, aes(x=time, y=points, group=1)) + 
-     geom_line(colour='blue')
+p1 = ggplot(data=dat, aes(x=time, y=invitations, group=1)) + geom_line(colour='red')
+p2 = ggplot(data=dat, aes(x=time, y=points, group=1)) + geom_line(colour='blue')
 
 grid.arrange(p1,p2) 
 
