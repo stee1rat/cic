@@ -1,6 +1,5 @@
 library(XML)
 library(ggplot2)
-library(gridExtra)
 
 url="http://www.cic.gc.ca/english/express-entry/past-rounds.asp"
 cic=xmlParse(url, isHTML = TRUE)
@@ -15,17 +14,43 @@ for (i in 1:length(details)) {
   time=append(time, as.Date(x)) 
 
   x=xpathApply(cic,paste('//details[',i,']//td',sep=''),xmlValue)[1]
-  invitations=append(invitations, sub('Footnote \\*','',x))
+  invitations=append(invitations, as.integer(sub(',','',sub('Footnote \\*','',x))))
   
   x=xpathApply(cic,paste('//details[',i,']//td',sep=''),xmlValue)[2]
-  points=append(points,sub(' points','',x))
+  points=append(points,as.integer(sub(' points','',x)))
 }
 
 dat = data.frame(time, invitations, points)
 
-p1 = ggplot(data=dat, aes(x=time, y=invitations, group=1)) + geom_line(colour='red')
-p2 = ggplot(data=dat, aes(x=time, y=points, group=1)) + geom_line(colour='blue')
+plot(dat$time, 
+     dat$invitations,
+     type='l', 
+     col="blue",
+     #main='Rounds of invitations',
+     ylim=c(min(dat$points),max(dat$invitations)),
+     yaxt='n',
+     xlab = 'Date',
+     ylab = '')
 
-grid.arrange(p1,p2) 
+yi = pretty(c(0,max(dat$invitations)))
+axis(2, pretty(c(0, max(dat$invitations))), col='blue', las=2)
+
+par(new=TRUE)
+
+plot(dat$time, 
+     dat$points, 
+     type='l', 
+     col='red', 
+     axes=FALSE, 
+     ylab='',
+     xlab='')
+
+yp = pretty(c(0,max(dat$points)))
+axis(4, pretty(c(0, max(dat$points))), col='red',las=2)
+
+
+#ggplot(dat, aes(time)) +                    
+#  geom_line(aes(y=invitations), colour="blue") +  
+#  geom_line(aes(y=points), colour="red")
 
 rm(x, details, cic, i, url)
