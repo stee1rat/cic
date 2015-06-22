@@ -1,5 +1,4 @@
 library(XML)
-library(ggplot2)
 
 url="http://www.cic.gc.ca/english/express-entry/past-rounds.asp"
 cic=xmlParse(url, isHTML = TRUE)
