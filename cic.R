@@ -22,32 +22,25 @@ for (i in 1:length(details)) {
 
 dat = data.frame(time, invitations, points)
 
-plot(dat$time, 
-     dat$invitations,
-     type='l', 
-     col="blue",
-     #main='Rounds of invitations',
-     ylim=c(min(dat$points),max(dat$invitations)),
-     yaxt='n',
-     xlab = 'Date',
-     ylab = '')
+par(oma=c(0,0,0,1))
 
-yi = pretty(c(0,max(dat$invitations)))
-axis(2, pretty(c(0, max(dat$invitations))), col='blue', las=2)
+plot(dat$time, dat$invitations, type='l', 
+     col="blue", main='Rounds of invitations',
+     ylim=c(min(dat$points),max(dat$invitations)),
+     yaxt='n', xaxt='n', xlab = '', ylab = '')
+
+axis(2, pretty(dat$invitations), las=2)
+axis.Date(1, dat$time, format="%b %Y")
 
 par(new=TRUE)
 
-plot(dat$time, 
-     dat$points, 
-     type='l', 
-     col='red', 
-     axes=FALSE, 
-     ylab='',
-     xlab='')
+plot(dat$time, dat$points, type='l', 
+     col='red', axes=FALSE, ylab='', xlab='')
 
-yp = pretty(c(0,max(dat$points)))
-axis(4, pretty(c(0, max(dat$points))), col='red',las=2)
+axis(4, pretty(dat$points), las=2)
 
+legend('topright', c('Invitations', 'Points'), 
+       lty=1, col=c('red', 'blue', bty='n', cex=.75))
 
 #ggplot(dat, aes(time)) +                    
 #  geom_line(aes(y=invitations), colour="blue") +  
