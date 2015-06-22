@@ -31,7 +31,7 @@ plot(dat$time, dat$invitations, type='c',
 axis(2, pretty(dat$invitations), las=2)
 axis.Date(1, dat$time, format="%b %Y")
 
-text(dat$time, dat$invitations, dat$invitations, cex=0.6)
+text(dat$time, dat$invitations, dat$invitations, cex=0.6, col='blue', font=2)
  
 par(new=TRUE)
 
@@ -40,7 +40,7 @@ plot(dat$time, dat$points, type='c',
 
 axis(4, pretty(dat$points), las=2)
 
-text(dat$time, dat$points, dat$points, cex=0.6)
+text(dat$time, dat$points, dat$points, cex=0.6, col='red', font=2)
 
 legend('topright', c('Invitations', 'Points'), 
        lty=1, col=c('red', 'blue', bty='n', cex=.75))
